@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Emergency Alert System</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+margin:0;
+padding:0;
+height:100vh;
+
+/* Professional emergency background */
+
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+
+color:white;
+overflow:hidden;
+}
+.container{
+margin-top:120px;
+}
+
+button{
+padding:20px 40px;
+font-size:22px;
+border:none;
+border-radius:12px;
+margin:15px;
+cursor:pointer;
+}
+
+.sos{
+.sos{
+background:red;
+color:white;
+font-size:60px;
+padding:60px 120px;
+border-radius:20px;
+
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+0%{box-shadow:0 0 0 0 rgba(255,0,0,0.7);}
+
+70%{box-shadow:0 0 0 40px rgba(255,0,0,0);}
+
+100%{box-shadow:0 0 0 0 rgba(255,0,0,0);}
+
+}
+}
+
+.option{
+background:rgba(255,255,255,0.9);
+color:black;
+backdrop-filter:blur(10px);
+}
+
+.call{
+background:green;
+color:white;
+}
+
+select{
+padding:10px;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<select onchange="changeLanguage(this.value)">
+<option value="en">English</option>
+<option value="ta">தமிழ்</option>
+<option value="hi">हिंदी</option>
+</select>
+
+<div id="page1" class="container">
+
+<h1 id="title">Emergency Alert System</h1>
+
+<button class="sos" onclick="showPage2()">SOS</button>
+
+</div>
+
+<div id="page2" style="display:none" class="container">
+
+<h2 id="choose">Choose Emergency Service</h2>
+
+<button id="ambulanceBtn" class="option" onclick="selectService('Ambulance','108')">🚑 Ambulance</button>
+
+<button id="policeBtn" class="option" onclick="selectService('Police','100')">👮 Police</button>
+
+<button id="fireBtn" class="option" onclick="selectService('Fire','101')">🔥 Fire</button>
+
+<button id="childBtn" class="option" onclick="selectService('Child Helpline','1098')">🧒 Child Helpline</button>
+</div>
+
+<div id="page3" style="display:none" class="container">
+
+<h2 id="sending">Sending Location...</h2>
+
+<div id="location"></div>
+
+<br>
+
+<a id="callButton">
+<button class="call" id="callText">Call Emergency</button>
+</a>
+
+</div>
+
+<script>
+
+let currentLang="en"
+
+function showPage2(){
+document.getElementById("page1").style.display="none"
+document.getElementById("page2").style.display="block"
+}
+
+function selectService(service,number){
+
+document.getElementById("page2").style.display="none"
+document.getElementById("page3").style.display="block"
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+let lat=pos.coords.latitude
+let lon=pos.coords.longitude
+
+document.getElementById("location").innerHTML=
+"Location: <a target='_blank' href='https://www.google.com/maps?q="+lat+","+lon+"'>View Map</a>"
+
+document.getElementById("callButton").href="tel:"+number
+
+})
+
+}
+function changeLanguage(lang){
+
+if(lang=="ta"){
+
+document.getElementById("title").innerText="அவசர எச்சரிக்கை அமைப்பு"
+document.getElementById("choose").innerText="அவசர சேவையை தேர்வு செய்யவும்"
+document.getElementById("sending").innerText="இருப்பிடம் அனுப்பப்படுகிறது"
+document.getElementById("callText").innerText="அழைக்க"
+
+document.getElementById("ambulanceBtn").innerText="🚑 ஆம்புலன்ஸ்"
+document.getElementById("policeBtn").innerText="👮 போலீஸ்"
+document.getElementById("fireBtn").innerText="🔥 தீயணைப்பு"
+document.getElementById("childBtn").innerText="🧒 குழந்தைகள் உதவி"
+
+}
+
+else if(lang=="hi"){
+
+document.getElementById("title").innerText="आपातकालीन चेतावनी प्रणाली"
+document.getElementById("choose").innerText="आपातकालीन सेवा चुनें"
+document.getElementById("sending").innerText="स्थान भेजा जा रहा है"
+document.getElementById("callText").innerText="कॉल करें"
+
+document.getElementById("ambulanceBtn").innerText="🚑 एम्बुलेंस"
+document.getElementById("policeBtn").innerText="👮 पुलिस"
+document.getElementById("fireBtn").innerText="🔥 फायर सेवा"
+document.getElementById("childBtn").innerText="🧒 चाइल्ड हेल्पलाइन"
+
+}
+
+else{
+
+document.getElementById("title").innerText="Emergency Alert System"
+document.getElementById("choose").innerText="Choose Emergency Service"
+document.getElementById("sending").innerText="Sending Location..."
+document.getElementById("callText").innerText="Call Emergency"
+
+document.getElementById("ambulanceBtn").innerText="🚑 Ambulance"
+document.getElementById("policeBtn").innerText="👮 Police"
+document.getElementById("fireBtn").innerText="🔥 Fire"
+document.getElementById("childBtn").innerText="🧒 Child Helpline"
+
+}
+
+}
+</script>
+
+</body>
+</html>
